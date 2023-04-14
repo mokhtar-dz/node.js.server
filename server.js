@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,7 +18,7 @@ async function sendQueryToChatGPT(prompt) {
       model: "gpt-3.5-turbo",
       messages: [{role: "user", content: prompt}],
       temperature: 0.6,
-      max_tokens:1000,
+      max_tokens:120,
       n: 5
     });
     //let reslut = completion.data.choices[0].message.content;
@@ -38,7 +38,7 @@ app.post('/correct', async (req, res) => {
     
 
     const response = await sendQueryToChatGPT("Corriger ce text de tout type d'erreur <"+ req.body.text +">.");
-    re.json({ result:response });
+    res.json({ result:response });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
@@ -48,3 +48,4 @@ app.post('/correct', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
