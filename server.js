@@ -45,8 +45,8 @@ app.get('/', async (req, res) => {
 app.post('/correct', async (req, res) => {
   try {
     const response = await sendQueryToChatGPT("Corriger ce text de tout type d'erreur <"+ req.body.text +">.");
-     console.log(response);
-    res.status(200).send({ result:response });
+    const stringResponse = JSON.stringify(response);
+    res.status(200).send({ result:stringResponse  });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
