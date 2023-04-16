@@ -49,7 +49,7 @@ app.post('/correct', async (req, res) => {
     res.status(200).send({ result:"HELLO"  });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(200).json({ result : error });
   }
 });
 
