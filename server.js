@@ -8,7 +8,7 @@ const API_KEY = '<YOUR_API_KEY>';
 
 const { Configuration, OpenAIApi } = require('openai');
 const configuration = new Configuration({
-    apiKey: process.env.API_KEY,
+    apiKey: process.env.OPENAI_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);
@@ -32,19 +32,11 @@ async function sendQueryToChatGPT(prompt) {
 }
 app.use(bodyParser.json());
 
-app.get('/', async (req, res) => {
-  try {
-    res.send("Hello Server : MANSOURI MOKHTAR.");
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 
 app.post('/correct', async (req, res) => {
   try {
     const response = await sendQueryToChatGPT("Corriger ce text de tout type d'erreur <"+ req.body.text +">.");
-    res.json({ result:response });
+    res.status(200).send({ result:response });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
