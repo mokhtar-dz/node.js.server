@@ -32,10 +32,20 @@ async function sendQueryToChatGPT(prompt) {
 }
 app.use(bodyParser.json());
 
+app.get('/', async (req, res) => {
+  try {
+    
+    res.status(200).send("Hello Server : MOKHTAR MANSOURI");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.post('/correct', async (req, res) => {
   try {
     const response = await sendQueryToChatGPT("Corriger ce text de tout type d'erreur <"+ req.body.text +">.");
+     console.log(response);
     res.status(200).send({ result:response });
   } catch (error) {
     console.error(error);
