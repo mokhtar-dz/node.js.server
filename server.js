@@ -17,9 +17,9 @@ async function sendQueryToChatGPT(prompt) {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [{role: "user", content: prompt}],
-      temperature: 0.6,
-      max_tokens:120,
-      n: 5
+      temperature: 0.5,
+      max_tokens:4096,
+      n: 1
     });
     //let reslut = completion.data.choices[0].message.content;
     let data = completion.data.choices.map((choice) => {
@@ -29,14 +29,12 @@ async function sendQueryToChatGPT(prompt) {
       };
     });
     return data;
-  }
+}
 app.use(bodyParser.json());
 
 
 app.post('/correct', async (req, res) => {
   try {
-    
-
     const response = await sendQueryToChatGPT("Corriger ce text de tout type d'erreur <"+ req.body.text +">.");
     res.json({ result:response });
   } catch (error) {
@@ -48,4 +46,3 @@ app.post('/correct', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-

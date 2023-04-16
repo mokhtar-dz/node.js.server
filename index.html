@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>ChatGPT API Test</title>
+  </head>
+  <body>
+    <h1>BETA & beta</h1>
+    <form id="text-form">
+      <label for="input-text">Enter text:</label>
+      <input type="text" id="input-text">
+      <button id="submit-button">Submit</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+      const url = 'https://api.openai.com/v1/language/models/gpt-3/queries/gpt-3.5_fr';
+
+      const form = document.getElementById('text-form');
+      const inputText = document.getElementById('input-text');
+      const submitButton = document.getElementById('submit-button');
+      const resultDiv = document.getElementById('result');
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const text = inputText.value.trim();
+
+        if (text === '') {
+          resultDiv.innerHTML = 'Please enter some text.';
+          return;
+        }
+
+        const fetchOptions = {
+          method: 'POST',
+          headers: {
+            mode: 'no-cors',
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({
+            data: {
+              text: text
+            }
+          })
+        };
+
+        fetch(`https://cors.bridged.cc/${url}`, 
+        {
+  mode: 'no-cors',
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
+  },
+  body: JSON.stringify({
+    data: {
+      text: text
+    }
+  })
+}
+        )
+          .then(response => response.json())
+          .then(data => {
+            resultDiv.innerHTML = data.choices[0].text;
+          })
+          .catch(error => {
+            console.error(error);
+            resultDiv.innerHTML = 'An error occurred.';
+          });
+      });
+    </script>
+  </body>
+</html>
