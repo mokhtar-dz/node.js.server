@@ -32,6 +32,14 @@ async function sendQueryToChatGPT(prompt) {
 }
 app.use(bodyParser.json());
 
+app.get('/', async (req, res) => {
+  try {
+    res.send("Hello Server : MANSOURI MOKHTAR.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 app.post('/correct', async (req, res) => {
   try {
